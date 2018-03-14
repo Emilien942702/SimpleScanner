@@ -3,7 +3,6 @@ Simple Scanner, to use with haveibeenpwned.com or hacked-emails.com for now.
 
 The results are stored in results.txt
 
-```
 # Download
 ```
 git clone https://github.com/Emilien942702/SimpleScanner
