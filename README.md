@@ -14,6 +14,9 @@ sudo bash SimpleScanner.sh database.txt
 ```
 # Options
 The script takes as argument the file in which your emails are stored, one by line.
+
+You can choose between haveibeenpwned or hacked-emails.
+
 hacked-emails.com blocks at around 297 per day.
 
 # Sources
