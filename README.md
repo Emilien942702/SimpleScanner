@@ -19,4 +19,4 @@ hacked-emails.com blocks at around 297 per day.
 # Sources
 [haveibeenpwned.com](https://haveibeenpwned.com/)
 
-[hacked-emails.com]https://hacked-emails.com/)
+[hacked-emails.com](https://hacked-emails.com/)
