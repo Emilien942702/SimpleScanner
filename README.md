@@ -3,7 +3,7 @@ Simple Scanner, to use with haveibeenpwned.com or hacked-emails.com for now.
 
 The results are stored in result.json
 
-#Requirements
+# Requirements
 
 This script requires curl and jq.
 ```
