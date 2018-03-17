@@ -74,8 +74,8 @@ elif [[ $option == "2" ]]; then
 			echo "Last mail tested was" 
 			head -n $last $database | tail -1
 			rm newresult
-			cat result.json | jq '{Emails:[.]}' | sponge result.json
-			sed -i 's/\\t//g' result.json
+			cat result.json | jq '{Emails:[.]}' | sponge result.json 2> /dev/null
+			sed -i 's/\\t//g' result.json 2> /dev/null
 			exit
 		fi
 		if [[ `echo $result | grep -w "found" -c` -ne 0 ]]; then
