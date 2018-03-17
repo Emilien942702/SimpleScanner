@@ -1,7 +1,9 @@
 # SimpleScanner
 Simple Scanner, to use with haveibeenpwned.com, hacked-emails.com or weleakinfo.com for now. 
 
+
 Provided a database of emails, it outputs for each email compromised websites and pastes from haveibeenpwned.com or information from hacked-emails.com or weleakinfo.com. 
+
 
 It can also, if emails are firstname.lastname@domain.com or lastname.firstname@domain.com perform a name search on weleakinfo.com
 
@@ -43,7 +45,9 @@ Retrieves Title, Details and Source URL from API
 
 # weleakinfo.com
 
-Displays a menu for the possibility to use the name search or not, and the formatting of the emails. Only displays the name of the website
+Displays a menu for the possibility to use the name search or not, and the formatting of the emails.
+
+Only displays the name of the website
 ```
 [
   {
@@ -63,6 +67,7 @@ Displays a menu for the possibility to use the name search or not, and the forma
   }
 ]
 ```
+
 
 
 
@@ -87,13 +92,14 @@ sudo bash SimpleScanner.sh database.txt
 # Options
 The script takes as argument the file in which your emails are stored, one by line.
 
-You can choose between haveibeenpwned or hacked-emails.
+You can choose between haveibeenpwned, hacked-emails or weleakinfo.com
 
 haveibeenpwned.com's API blocks if you do more than 1 request per 1500ms.
 
 hacked-emails.com's API blocks at around 300 requests per day.
 
 weleakinfo.com's API blocks at 3 request per second
+
 
 The output is a json file readable by any [json online viewer](http://json.bloople.net/)
 
