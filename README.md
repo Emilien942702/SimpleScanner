@@ -62,7 +62,7 @@ The script takes as argument the file in which your emails are stored, one by li
 
 You can choose between haveibeenpwned or hacked-emails.
 
-hacked-emails.com blocks at around 300 per day.
+hacked-emails.com's API blocks at around 300 requests per day.
 
 The output is a json file readable by any [json online viewer](http://json.bloople.net/)
 
