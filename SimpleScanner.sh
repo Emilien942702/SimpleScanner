@@ -27,7 +27,7 @@ if [[ $option == "1" ]]; then
 			sleep 1.6
 			resultbreachedaccount=`curl -s -H "Accept: application/json" -H "Content-Type: application/json" -X GET $urlbreachedaccount`
 			if [[ `echo $resultbreachedaccount | grep 'Rate limit exceeded' -c` -ne 0 ]]; then
-				echo You just got timed out ... Try later 
+				echo "You just got timed out ... Try later"
 				last=`expr $ligne - 1`
 				echo "Last mail tested was" 
 				head -n $last $database | tail -1
@@ -118,21 +118,12 @@ elif [[ $option == "3" ]]; then
 			urlsite='https://api.weleakinfo.com/v2/public/email/'$vraieligne
 			urlsite="$(echo -e "${urlsite}" | tr -d '[:space:]')"
 			resultsite=`curl -s --user-agent "Mozilla 5.0" -H "Accept: application/json" -H "Content-Type: application/json" -X GET $urlsite`
-			if [[ `echo $resultsite | grep -w "\"Hits\": 0," -c` -eq 0 ]]; then
-				echo $resultsite | jq 'del(.Response, .Time, .Hits,.Unique)' | jq '{"Sites by email":[.[]]}' > tempsite
-			fi
-			urlname='https://api.weleakinfo.com/v2/public/name/'$prenom\_$nom
-			urlname="$(echo -e "${urlname}" | tr -d '[:space:]')"
-			resultname=`curl -s --user-agent "Mozilla 5.0" -H "Accept: application/json" -H "Content-Type: application/json" -X GET $urlname`
-			if [[ `echo $resultname | grep -w "\"Hits\": 0," -c` -eq 0 && `echo $resultname | grep -w "Bad Request" -c` -eq 0 ]]; then
-				echo $resultname | jq 'del(.Response, .Time, .Hits,.Unique)' | jq '{"Sites by name":[.[]]}' > tempname
-			fi
-			if [[ `echo $resultname | grep 'limited' -c` -ne 0 ]]; then
-				echo Rate limit exceeded
-				echo 190 seconds cooldown
+			if [[ `echo $resultsite | grep 'You are being rate limited' -c` -ne 0 ]]; then
+				echo "Rate limit exceeded"
+				echo "190 seconds cooldown"
 				sleep 190
-				resultname=`curl -s --user-agent "Mozilla 5.0" -H "Accept: application/json" -H "Content-Type: application/json" -X GET $urlname`
-				if [[ `echo $resultname | grep 'limited' -c` -ne 0 ]]; then
+				resultsite=`curl -s --user-agent "Mozilla 5.0" -H "Accept: application/json" -H "Content-Type: application/json" -X GET $urlsite`
+				if [[ `echo $resultsite | grep 'You are being rate limited' -c` -ne 0 ]]; then
 					echo You just got timed out ... Try later 
 					last=`expr $ligne - 1`
 					echo "Last mail tested was" 
@@ -142,6 +133,31 @@ elif [[ $option == "3" ]]; then
 					rm newresult
 					exit
 				fi
+			fi
+			if [[ `echo $resultsite | grep -w "\"Hits\": 0," -c` -eq 0 ]]; then
+				echo $resultsite | jq 'del(.Response, .Time, .Hits,.Unique)' | jq '{"Sites by email":[.[]]}' > tempsite
+			fi
+			urlname='https://api.weleakinfo.com/v2/public/name/'$prenom\_$nom
+			urlname="$(echo -e "${urlname}" | tr -d '[:space:]')"
+			resultname=`curl -s --user-agent "Mozilla 5.0" -H "Accept: application/json" -H "Content-Type: application/json" -X GET $urlname`
+			if [[ `echo $resultname | grep 'You are being rate limited' -c` -ne 0 ]]; then
+				echo "Rate limit exceeded"
+				echo "190 seconds cooldown"
+				sleep 190
+				resultname=`curl -s --user-agent "Mozilla 5.0" -H "Accept: application/json" -H "Content-Type: application/json" -X GET $urlname`
+				if [[ `echo $resultname | grep 'You are being rate limited' -c` -ne 0 ]]; then
+					echo You just got timed out ... Try later 
+					last=`expr $ligne - 1`
+					echo "Last mail tested was" 
+					head -n $last $database | tail -1
+					cat result.json | jq '{Emails:[.]}' | sponge result.json
+					sed -i 's/\\t//g' result.json
+					rm newresult
+					exit
+				fi
+			fi
+			if [[ `echo $resultname | grep -w "\"Hits\": 0," -c` -eq 0 && `echo $resultname | grep -w "Bad Request" -c` -eq 0 ]]; then
+				echo $resultname | jq 'del(.Response, .Time, .Hits,.Unique)' | jq '{"Sites by name":[.[]]}' > tempname
 			fi
 			if [[ -s tempname && -s tempsite ]]; then
 				jq -s '[.[]]' tempsite tempname | jq "{\"$vraieligne\":[.]}" > newresult
@@ -170,12 +186,12 @@ elif [[ $option == "3" ]]; then
 			url='https://api.weleakinfo.com/v2/public/email/'$vraieligne
 			url="$(echo -e "${url}" | tr -d '[:space:]')"
 			result=`curl -s --user-agent "Mozilla 5.0" -H "Accept: application/json" -H "Content-Type: application/json" -X GET $url`
-			if [[ `echo $result | grep 'limited' -c` -ne 0 ]]; then
+			if [[ `echo $result | grep 'You are being rate limited' -c` -ne 0 ]]; then
 				echo Rate limit exceeded
 				echo 190 seconds cooldown
 				sleep 190
 				result=`curl -s --user-agent "Mozilla 5.0" -H "Accept: application/json" -H "Content-Type: application/json" -X GET $url`
-				if [[ `echo $result | grep 'limited' -c` -ne 0 ]]; then
+				if [[ `echo $result | grep 'You are being rate limited' -c` -ne 0 ]]; then
 					echo You just got timed out ... Try later 
 					last=`expr $ligne - 1`
 					echo "Last mail tested was" 
