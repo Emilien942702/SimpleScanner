@@ -54,8 +54,8 @@ if [[ $option == "1" ]]; then
 				else
 				 jq -s 'add' result.json newresult | sponge result.json
 				fi
-			rm tempsite temppaste newresult 2> /dev/null
 			fi
+		rm tempsite temppaste newresult 2> /dev/null
 		echo $ligne out of $nbrlignes
 		sleep 2
 	done
@@ -90,8 +90,8 @@ elif [[ $option == "2" ]]; then
 			else
 			 jq -s 'add' result.json newresult | sponge result.json
 			fi
-			rm newresult
-		fi		
+		fi
+		rm newresult		
 		echo $ligne out of $nbrlignes
 		sleep 2
 	done
