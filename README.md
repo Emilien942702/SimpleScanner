@@ -1,3 +1,5 @@
+# NOT MAINTAINED ANYMORE, hacked-emails.com and weleakinfo.com have disabled their APIs due to GDPR concerns. haveibeenpwned.com still working for now
+
 # SimpleScanner
 Simple Scanner, to use with haveibeenpwned.com, hacked-emails.com or weleakinfo.com for now. 
 
